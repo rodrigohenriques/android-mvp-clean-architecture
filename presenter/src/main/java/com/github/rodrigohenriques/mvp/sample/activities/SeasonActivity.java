@@ -65,7 +65,7 @@ public class SeasonActivity extends RoboActionBarActivity implements EpisodesVie
     @Override
     protected void onStart() {
         super.onStart();
-        mPresenter.loadEpisodes("game-of-thrones", 1);
+        mPresenter.loadData("game-of-thrones", 1);
     }
 
     @Override

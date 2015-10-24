@@ -30,7 +30,7 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
     public EpisodesPresenterImpl() {}
 
     @Override
-    public void loadEpisodes(final String serie, final int seasonNumber) {
+    public void loadData(final String serie, final int seasonNumber) {
         showLoading();
 
         mSerie = serie;
