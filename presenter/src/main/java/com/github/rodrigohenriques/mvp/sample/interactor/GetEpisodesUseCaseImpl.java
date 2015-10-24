@@ -32,10 +32,10 @@ public class GetEpisodesUseCaseImpl implements GetEpisodesUseCase {
             public void run() {
                 try {
                     final List<Episode> episodes =  episodeRepository.listEpisodesFromTelevisionShowBySeason(serie, season);
-                    handler.postDelayed(new RunOnSuccess(episodes), 50000);
+                    handler.postDelayed(new RunOnSuccess(episodes), 5000);
                 } catch (Exception e) {
                     Log.e("GetEpisodesUseCase", e.getMessage(), e);
-                    handler.post(new RunOnException(e));
+                    handler.postDelayed(new RunOnException(e), 5000);
                 }
             }
         }).start();

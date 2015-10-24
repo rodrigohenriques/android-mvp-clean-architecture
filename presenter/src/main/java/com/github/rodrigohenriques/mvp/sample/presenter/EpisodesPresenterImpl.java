@@ -1,5 +1,6 @@
 package com.github.rodrigohenriques.mvp.sample.presenter;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
@@ -24,70 +25,81 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
 
     String mSerie;
     int mSeason;
+    private boolean mLoadingData;
 
-    public EpisodesPresenterImpl() {
-    }
+    public EpisodesPresenterImpl() {}
 
     @Override
-    public void loadEpisodes(String serie, int season) {
+    public void loadEpisodes(final String serie, final int seasonNumber) {
         showLoading();
-        mSerie = serie;
-        mSeason = season;
 
-        mGetSeasonDetailUseCase.execute(serie, season, new GetSeasonDetailUseCase.Callback() {
+        mSerie = serie;
+        mSeason = seasonNumber;
+
+        mGetSeasonDetailUseCase.execute(serie, seasonNumber, new GetSeasonDetailUseCase.Callback() {
             @Override
             public void onSuccess(Season season) {
                 mSeasonCache = season;
-                showSeasonPicture(season.getPictureUrl());
+
+                showSeasonPicture(season.getSeasonPictureUrl());
                 showSeasonBanner(season.getSeasonBannerUrl());
                 showSeasonRating(season.getSeasonRating());
+
+                mGetEpisodesUseCase.execute(serie, seasonNumber, new GetEpisodesUseCase.Callback() {
+                    @Override
+                    public void onSuccess(List<Episode> episodes) {
+                        mEpisodesCache = episodes;
+                        showItems(episodes);
+                        hideLoading();
+                    }
+
+                    @Override
+                    public void onException(Exception e) {
+                        hideLoading();
+                        showError(e.getMessage());
+                    }
+                });
             }
 
             @Override
             public void onException(Exception e) {
-                showError(e.getMessage());
-            }
-        });
-
-        mGetEpisodesUseCase.execute(serie, season, new GetEpisodesUseCase.Callback() {
-            @Override
-            public void onSuccess(List<Episode> episodes) {
-                mEpisodesCache = episodes;
-                showItems(episodes);
                 hideLoading();
-            }
-
-            @Override
-            public void onException(Exception e) {
                 showError(e.getMessage());
             }
         });
     }
 
     @Override
-    public void attachView(EpisodesView episodesView) {
+    public void attachView(@NonNull EpisodesView episodesView) {
         this.mEpisodesView = episodesView;
 
-        if (mSeasonCache != null) {
-            this.showSeasonPicture(mSeasonCache.getPictureUrl());
-            this.showSeasonBanner(mSeasonCache.getSeasonBannerUrl());
-            this.showSeasonRating(mSeasonCache.getSeasonRating());
-        }
+        if (mLoadingData) {
+            this.mEpisodesView.showLoading();
+        } else {
+            if (mSeasonCache != null) {
+                this.showSeasonPicture(mSeasonCache.getSeasonPictureUrl());
+                this.showSeasonBanner(mSeasonCache.getSeasonBannerUrl());
+                this.showSeasonRating(mSeasonCache.getSeasonRating());
+            }
 
-        if (mEpisodesCache != null) {
-            this.showItems(mEpisodesCache);
+            if (mEpisodesCache != null) {
+                this.showItems(mEpisodesCache);
+            }
         }
-
     }
 
     @Override
     public void showLoading() {
+        mLoadingData = true;
+
         if (mEpisodesView != null)
             mEpisodesView.showLoading();
     }
 
     @Override
     public void hideLoading() {
+        mLoadingData = false;
+
         if (mEpisodesView != null)
             mEpisodesView.hideLoading();
     }
@@ -125,6 +137,6 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
     @Override
     public void showSeasonRating(String rating) {
         if (mEpisodesView != null)
-            mEpisodesView.showSeasonPicture(rating);
+            mEpisodesView.showSeasonRating(rating);
     }
 }

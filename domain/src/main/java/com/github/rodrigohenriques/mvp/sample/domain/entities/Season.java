@@ -1,31 +1,31 @@
 package com.github.rodrigohenriques.mvp.sample.domain.entities;
 
 public class Season {
-    private String showThumbUrl;
-    private String seasonThumbUrl;
+    private String seasonPictureUrl;
+    private String seasonBannerUrl;
     private String seasonRating;
 
-    public void setShowThumbUrl(String showThumbUrl) {
-        this.showThumbUrl = showThumbUrl;
+    public String getSeasonPictureUrl() {
+        return seasonPictureUrl;
     }
 
-    public void setSeasonThumbUrl(String seasonThumbUrl) {
-        this.seasonThumbUrl = seasonThumbUrl;
-    }
-
-    public void setSeasonRating(String seasonRating) {
-        this.seasonRating = seasonRating;
-    }
-
-    public String getPictureUrl() {
-        return showThumbUrl;
+    public void setSeasonPictureUrl(String seasonPictureUrl) {
+        this.seasonPictureUrl = seasonPictureUrl;
     }
 
     public String getSeasonBannerUrl() {
-        return seasonThumbUrl;
+        return seasonBannerUrl;
+    }
+
+    public void setSeasonBannerUrl(String seasonBannerUrl) {
+        this.seasonBannerUrl = seasonBannerUrl;
     }
 
     public String getSeasonRating() {
         return seasonRating;
+    }
+
+    public void setSeasonRating(String seasonRating) {
+        this.seasonRating = seasonRating;
     }
 }

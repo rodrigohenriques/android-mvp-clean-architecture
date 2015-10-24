@@ -31,7 +31,7 @@ public class GetSeasonDetailUseCaseImpl implements GetSeasonDetailUseCase{
                     mHandler.postDelayed(new RunOnSuccess(season), 5000);
                 } catch (Exception e) {
                     Log.e("GetEpisodesUseCase", e.getMessage(), e);
-                    mHandler.post(new RunOnException(e));
+                    mHandler.postDelayed(new RunOnException(e), 5000);
                 }
             }
         }).start();
