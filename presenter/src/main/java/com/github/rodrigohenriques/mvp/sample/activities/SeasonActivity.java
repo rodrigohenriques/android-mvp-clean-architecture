@@ -60,11 +60,7 @@ public class SeasonActivity extends RoboActionBarActivity implements EpisodesVie
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mRecyclerView.getContext()));
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         mPresenter.loadData(mSerie, mSeason);
     }
 
