@@ -25,7 +25,7 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
 
     String mSerie;
     int mSeason;
-    private boolean mLoadingData;
+    boolean mLoadingData;
 
     public EpisodesPresenterImpl() {}
 
