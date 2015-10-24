@@ -23,4 +23,8 @@ public class Episode {
     public String getTitle() {
         return title;
     }
+
+    public String getNumberPrettyPrint() {
+        return String.format("E%d", number);
+    }
 }
