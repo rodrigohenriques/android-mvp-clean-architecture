@@ -1,5 +1,5 @@
 # android-mvp-clean-architeture
-Simple application using MVP + Clean Architecture at Android Applications. 
+Simple application using MVP + Clean Architecture. 
 
 Based on article [Architecting Android…The clean way?] (http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/) from [Android10](https://github.com/android10)
 
