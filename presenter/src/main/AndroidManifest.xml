@@ -12,7 +12,7 @@
 
         <meta-data
             android:name="roboguice.modules"
-            android:value="com.github.rodrigohenriques.mvp.sample.di.PresenterModule,com.github.rodrigohenriques.mvp.sample.di.DataModule" />
+            android:value="com.github.rodrigohenriques.mvp.sample.di.PresenterModule,com.github.rodrigohenriques.mvp.sample.data.di.DataModule" />
 
         <meta-data
             android:name="roboguice.annotations.packages"

@@ -1,6 +1,6 @@
 package com.github.rodrigohenriques.mvp.sample.data.remote;
 
-import com.github.rodrigohenriques.mvp.sample.data.api.TraktApi;
+import com.github.rodrigohenriques.mvp.sample.data.api.TraktvApi;
 import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeEntity;
 import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeEntityMarshaller;
 import com.github.rodrigohenriques.mvp.sample.data.exception.RemoteEpisodeRepositoryException;
@@ -20,14 +20,14 @@ import retrofit.Response;
 public class RemoteEpisodeRepository implements EpisodeRepository {
 
     @Inject
-    TraktApi traktApi;
+    TraktvApi traktvApi;
 
     public RemoteEpisodeRepository() {
     }
 
     @Override
     public List<Episode> listEpisodesFromTelevisionShowBySeason(String serie, int season) throws Exception {
-        Call<List<EpisodeEntity>> call = traktApi.episodes(serie, season);
+        Call<List<EpisodeEntity>> call = traktvApi.episodes(serie, season);
 
         Response<List<EpisodeEntity>> response;
         try {

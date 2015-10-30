@@ -1,14 +1,9 @@
-package com.github.rodrigohenriques.mvp.sample.di;
+package com.github.rodrigohenriques.mvp.sample.data.di;
 
-import android.app.Application;
 import android.util.Log;
 
-import com.github.rodrigohenriques.mvp.sample.data.api.TraktApi;
-import com.github.rodrigohenriques.mvp.sample.data.remote.FakeSeasonRepository;
-import com.github.rodrigohenriques.mvp.sample.data.remote.RemoteEpisodeRepository;
-import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
-import com.github.rodrigohenriques.mvp.sample.domain.repository.SeasonRepository;
-import com.google.inject.AbstractModule;
+import com.github.rodrigohenriques.mvp.sample.data.api.TraktvApi;
+import com.google.inject.Provider;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -19,30 +14,20 @@ import java.io.IOException;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
 
-public class DataModule extends AbstractModule {
+public class TraktvApiProvider implements Provider<TraktvApi> {
 
-    private final Application application;
-
-    public DataModule(Application application) {
-        this.application = application;
-    }
+    public static final String BASE_URL = "https://api-v2launch.trakt.tv/";
 
     @Override
-    protected void configure() {
-        bind(TraktApi.class).toInstance(getTraktApiInstance());
-        bind(EpisodeRepository.class).to(RemoteEpisodeRepository.class);
-        bind(SeasonRepository.class).to(FakeSeasonRepository.class);
-    }
-
-    public TraktApi getTraktApiInstance() {
+    public TraktvApi get() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api-v2launch.trakt.tv/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         retrofit.client().interceptors().add(new LoggingInterceptor());
 
-        return retrofit.create(TraktApi.class);
+        return retrofit.create(TraktvApi.class);
     }
 
     private class LoggingInterceptor implements Interceptor {
@@ -50,6 +35,11 @@ public class DataModule extends AbstractModule {
         public Response intercept(Chain chain) throws IOException {
 
             Request request = chain.request();
+
+            request = request.newBuilder()
+                    .addHeader("trakt-api-version", "2")
+                    .addHeader("trakt-api-key", "4122c40ed43a1f9a8f015538f4b6a80c8ef4e76601b91576982820d955df3f9f")
+                    .build();
 
             Response response = chain.proceed(request);
 
