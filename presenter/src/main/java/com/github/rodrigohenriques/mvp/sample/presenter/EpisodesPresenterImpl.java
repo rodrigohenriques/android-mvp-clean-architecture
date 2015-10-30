@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Season;
+import com.github.rodrigohenriques.mvp.sample.domain.interactor.Callback;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodesUseCase;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetSeasonDetailUseCase;
 import com.github.rodrigohenriques.mvp.sample.presenter.view.EpisodesView;
@@ -36,7 +37,7 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
         mSerie = serie;
         mSeason = seasonNumber;
 
-        mGetSeasonDetailUseCase.execute(serie, seasonNumber, new GetSeasonDetailUseCase.Callback() {
+        mGetSeasonDetailUseCase.execute(serie, seasonNumber, new Callback<Season>() {
             @Override
             public void onSuccess(Season season) {
                 mSeasonCache = season;
@@ -45,7 +46,7 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
                 showSeasonBanner(season.getSeasonBannerUrl());
                 showSeasonRating(season.getSeasonRating());
 
-                mGetEpisodesUseCase.execute(serie, seasonNumber, new GetEpisodesUseCase.Callback() {
+                mGetEpisodesUseCase.execute(serie, seasonNumber, new Callback<List<Episode>>() {
                     @Override
                     public void onSuccess(List<Episode> episodes) {
                         mEpisodesCache = episodes;
