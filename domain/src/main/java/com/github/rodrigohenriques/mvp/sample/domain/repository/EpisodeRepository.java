@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface EpisodeRepository extends Repository {
     List<Episode> listEpisodesFromTelevisionShowBySeason(String tvShow, int season) throws Exception;
-    EpisodeDetail retrieveEpisodeDetail(String imdbId);
+    EpisodeDetail retrieveEpisodeDetail(String imdbId) throws Exception;
 }

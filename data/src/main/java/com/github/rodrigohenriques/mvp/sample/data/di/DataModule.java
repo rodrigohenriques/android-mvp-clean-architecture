@@ -2,6 +2,7 @@ package com.github.rodrigohenriques.mvp.sample.data.di;
 
 import android.app.Application;
 
+import com.github.rodrigohenriques.mvp.sample.data.api.OmdbApi;
 import com.github.rodrigohenriques.mvp.sample.data.api.TraktvApi;
 import com.github.rodrigohenriques.mvp.sample.data.remote.FakeSeasonRepository;
 import com.github.rodrigohenriques.mvp.sample.data.remote.RemoteEpisodeRepository;
@@ -19,7 +20,8 @@ public class DataModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(TraktvApi.class).toInstance(new TraktvApiProvider().get());
+        bind(TraktvApi.class).toProvider(new TraktvApiProvider());
+        bind(OmdbApi.class).toProvider(new OmdbApiProvider());
         bind(EpisodeRepository.class).to(RemoteEpisodeRepository.class);
         bind(SeasonRepository.class).to(FakeSeasonRepository.class);
     }
