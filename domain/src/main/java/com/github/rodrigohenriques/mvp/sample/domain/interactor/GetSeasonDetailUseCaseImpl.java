@@ -4,7 +4,7 @@ import com.github.rodrigohenriques.mvp.sample.domain.entities.Season;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.SeasonRepository;
 
 public class GetSeasonDetailUseCaseImpl extends AbstractUseCase implements GetSeasonDetailUseCase {
-    private String mSerie;
+    private String mTvShow;
     private int mSeasonNumber;
     private Callback<Season> mCallback;
     private SeasonRepository mSeasonRepository;
@@ -15,8 +15,8 @@ public class GetSeasonDetailUseCaseImpl extends AbstractUseCase implements GetSe
     }
 
     @Override
-    public void execute(String serie, int season, Callback<Season> callback) {
-        mSerie = serie;
+    public void execute(String tvShow, int season, Callback<Season> callback) {
+        mTvShow = tvShow;
         mSeasonNumber = season;
         mCallback = callback;
         mCallback.setUiThreadExecutor(mUiThreadExecutor);
@@ -27,7 +27,7 @@ public class GetSeasonDetailUseCaseImpl extends AbstractUseCase implements GetSe
     @Override
     public void run() {
         try {
-            final Season season = mSeasonRepository.retrieve(mSerie, mSeasonNumber);
+            final Season season = mSeasonRepository.retrieve(mTvShow, mSeasonNumber);
 
             mCallback.dispatchResult(season);
         } catch (final Exception e) {

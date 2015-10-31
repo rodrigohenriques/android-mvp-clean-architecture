@@ -6,7 +6,7 @@ import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepositor
 import java.util.List;
 
 public class GetEpisodesUseCaseImpl extends AbstractUseCase implements GetEpisodesUseCase {
-    private String mSerie;
+    private String mTvShow;
     private int mSeasonNumber;
     private Callback<List<Episode>> mCallback;
     private EpisodeRepository mEpisodeRepository;
@@ -17,8 +17,8 @@ public class GetEpisodesUseCaseImpl extends AbstractUseCase implements GetEpisod
     }
 
     @Override
-    public void execute(final String serie, final int seasonNumber, final Callback<List<Episode>> callback) {
-        mSerie = serie;
+    public void execute(final String tvShow, final int seasonNumber, final Callback<List<Episode>> callback) {
+        mTvShow = tvShow;
         mSeasonNumber = seasonNumber;
         mCallback = callback;
         mCallback.setUiThreadExecutor(mUiThreadExecutor);
@@ -29,7 +29,7 @@ public class GetEpisodesUseCaseImpl extends AbstractUseCase implements GetEpisod
     @Override
     public void run() {
         try {
-            List<Episode> episodes = mEpisodeRepository.listEpisodesFromTelevisionShowBySeason(mSerie, mSeasonNumber);
+            List<Episode> episodes = mEpisodeRepository.listEpisodesFromTelevisionShowBySeason(mTvShow, mSeasonNumber);
 
             mCallback.dispatchResult(episodes);
         } catch (final Exception e) {

@@ -15,7 +15,7 @@ import com.google.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
+public class SeasonPresenterImpl implements SeasonPresenter, EpisodesView {
 
     @Inject GetEpisodesUseCase mGetEpisodesUseCase;
     @Inject GetSeasonDetailUseCase mGetSeasonDetailUseCase;
@@ -24,20 +24,20 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
     Season mSeasonCache;
     List<Episode> mEpisodesCache;
 
-    String mSerie;
+    String mTvShow;
     int mSeason;
     boolean mLoadingData;
 
-    public EpisodesPresenterImpl() {}
+    public SeasonPresenterImpl() {}
 
     @Override
-    public void loadData(final String serie, final int seasonNumber) {
+    public void loadData(final String tvShow, final int seasonNumber) {
         showLoading();
 
-        mSerie = serie;
+        mTvShow = tvShow;
         mSeason = seasonNumber;
 
-        mGetSeasonDetailUseCase.execute(serie, seasonNumber, new Callback<Season>() {
+        mGetSeasonDetailUseCase.execute(tvShow, seasonNumber, new Callback<Season>() {
             @Override
             public void onSuccess(Season season) {
                 mSeasonCache = season;
@@ -46,7 +46,7 @@ public class EpisodesPresenterImpl implements EpisodesPresenter, EpisodesView {
                 showSeasonBanner(season.getSeasonBannerUrl());
                 showSeasonRating(season.getSeasonRating());
 
-                mGetEpisodesUseCase.execute(serie, seasonNumber, new Callback<List<Episode>>() {
+                mGetEpisodesUseCase.execute(tvShow, seasonNumber, new Callback<List<Episode>>() {
                     @Override
                     public void onSuccess(List<Episode> episodes) {
                         mEpisodesCache = episodes;

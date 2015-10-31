@@ -9,7 +9,7 @@ public class FakeSeasonRepository implements SeasonRepository {
     }
 
     @Override
-    public Season retrieve(String serie, int seasonNumber) {
+    public Season retrieve(String tvShow, int seasonNumber) {
         Season season = new Season();
 
         String seasonPictureUrl = "https://walter.trakt.us/images/shows/000/001/390/posters/thumb/93df9cd612.jpg";
