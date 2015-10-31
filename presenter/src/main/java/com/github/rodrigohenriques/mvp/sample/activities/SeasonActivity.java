@@ -72,7 +72,7 @@ public class SeasonActivity extends RoboActionBarActivity implements EpisodesVie
 
     @Override
     public void onItemClick(Episode episode) {
-        Snackbar.make(mRecyclerView, episode.getTitle(), Snackbar.LENGTH_LONG).show();
+        Snackbar.make(mRecyclerView, episode.getImdbId(), Snackbar.LENGTH_LONG).show();
     }
 
     @Override
