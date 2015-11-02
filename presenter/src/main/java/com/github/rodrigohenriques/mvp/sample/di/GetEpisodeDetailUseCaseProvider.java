@@ -1,19 +1,19 @@
 package com.github.rodrigohenriques.mvp.sample.di;
 
-import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodesUseCase;
-import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodesUseCaseImpl;
+import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodeDetailUseCase;
+import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodeDetailUseCaseImpl;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.UiThreadExecutor;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class GetEpisodesUseCaseProvider implements Provider<GetEpisodesUseCase> {
+public class GetEpisodeDetailUseCaseProvider implements Provider<GetEpisodeDetailUseCase> {
 
     @Inject EpisodeRepository episodeRepository;
     @Inject UiThreadExecutor uiThreadExecutor;
 
     @Override
-    public GetEpisodesUseCase get() {
-        return new GetEpisodesUseCaseImpl(uiThreadExecutor, episodeRepository);
+    public GetEpisodeDetailUseCase get() {
+        return new GetEpisodeDetailUseCaseImpl(uiThreadExecutor, episodeRepository);
     }
 }

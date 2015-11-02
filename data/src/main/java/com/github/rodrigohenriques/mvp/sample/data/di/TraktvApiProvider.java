@@ -11,7 +11,7 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 
-import retrofit.GsonConverterFactory;
+import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 
 public class TraktvApiProvider implements Provider<TraktvApi> {
@@ -22,7 +22,7 @@ public class TraktvApiProvider implements Provider<TraktvApi> {
     public TraktvApi get() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
         retrofit.client().interceptors().add(new LoggingInterceptor());

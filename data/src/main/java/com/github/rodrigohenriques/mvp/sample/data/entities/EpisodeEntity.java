@@ -1,15 +1,15 @@
 package com.github.rodrigohenriques.mvp.sample.data.entities;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 
 public class EpisodeEntity {
 
-    @SerializedName("season") int season;
-    @SerializedName("number") int number;
-    @SerializedName("title") String title;
-    @SerializedName("ids") HashMap<String, String> ids;
+    @JsonProperty("season") int season;
+    @JsonProperty("number") int number;
+    @JsonProperty("title") String title;
+    @JsonProperty("ids") HashMap<String, String> ids;
 
 
     public int getSeason() {

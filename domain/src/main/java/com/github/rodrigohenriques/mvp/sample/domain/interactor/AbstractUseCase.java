@@ -1,6 +1,6 @@
 package com.github.rodrigohenriques.mvp.sample.domain.interactor;
 
-public class AbstractUseCase {
+public abstract class AbstractUseCase {
     protected UiThreadExecutor mUiThreadExecutor;
     protected Thread mProcess;
 

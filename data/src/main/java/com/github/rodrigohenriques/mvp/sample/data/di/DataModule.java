@@ -4,11 +4,15 @@ import android.app.Application;
 
 import com.github.rodrigohenriques.mvp.sample.data.api.OmdbApi;
 import com.github.rodrigohenriques.mvp.sample.data.api.TraktvApi;
+import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeDetailJsonMarshaller;
+import com.github.rodrigohenriques.mvp.sample.data.entities.Marshaller;
 import com.github.rodrigohenriques.mvp.sample.data.remote.FakeSeasonRepository;
 import com.github.rodrigohenriques.mvp.sample.data.remote.RemoteEpisodeRepository;
+import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.SeasonRepository;
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
 
 public class DataModule extends AbstractModule {
 
@@ -24,5 +28,6 @@ public class DataModule extends AbstractModule {
         bind(OmdbApi.class).toProvider(new OmdbApiProvider());
         bind(EpisodeRepository.class).to(RemoteEpisodeRepository.class);
         bind(SeasonRepository.class).to(FakeSeasonRepository.class);
+        bind(new TypeLiteral<Marshaller<EpisodeDetail, String>>(){}).to(EpisodeDetailJsonMarshaller.class);
     }
 }

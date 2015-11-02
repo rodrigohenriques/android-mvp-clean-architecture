@@ -3,23 +3,28 @@ package com.github.rodrigohenriques.mvp.sample.presenter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.github.rodrigohenriques.mvp.sample.data.entities.Marshaller;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
+import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Season;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.Callback;
+import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodeDetailUseCase;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodesUseCase;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetSeasonDetailUseCase;
-import com.github.rodrigohenriques.mvp.sample.presenter.view.EpisodesView;
+import com.github.rodrigohenriques.mvp.sample.presenter.view.SeasonView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.List;
 
 @Singleton
-public class SeasonPresenterImpl implements SeasonPresenter, EpisodesView {
+public class SeasonPresenterImpl implements SeasonPresenter {
 
     @Inject GetEpisodesUseCase mGetEpisodesUseCase;
     @Inject GetSeasonDetailUseCase mGetSeasonDetailUseCase;
-    @Nullable EpisodesView mEpisodesView;
+    @Inject GetEpisodeDetailUseCase mGetEpisodeDetailUseCase;
+    @Inject Marshaller<EpisodeDetail, String> episodeDetailStringMarshaller;
+    @Nullable SeasonView mSeasonView;
 
     Season mSeasonCache;
     List<Episode> mEpisodesCache;
@@ -34,8 +39,12 @@ public class SeasonPresenterImpl implements SeasonPresenter, EpisodesView {
     public void loadData(final String tvShow, final int seasonNumber) {
         showLoading();
 
-        mTvShow = tvShow;
-        mSeason = seasonNumber;
+        if (hasCachedResult(tvShow, seasonNumber)) {
+            showItems(mEpisodesCache);
+        } else {
+            mTvShow = tvShow;
+            mSeason = seasonNumber;
+        }
 
         mGetSeasonDetailUseCase.execute(tvShow, seasonNumber, new Callback<Season>() {
             @Override
@@ -46,36 +55,49 @@ public class SeasonPresenterImpl implements SeasonPresenter, EpisodesView {
                 showSeasonBanner(season.getSeasonBannerUrl());
                 showSeasonRating(season.getSeasonRating());
 
+                showLoading();
+
                 mGetEpisodesUseCase.execute(tvShow, seasonNumber, new Callback<List<Episode>>() {
                     @Override
                     public void onSuccess(List<Episode> episodes) {
                         mEpisodesCache = episodes;
                         showItems(episodes);
-                        hideLoading();
                     }
 
                     @Override
                     public void onException(Exception e) {
-                        hideLoading();
                         showError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onPostExecute() {
+                        hideLoading();
                     }
                 });
             }
 
             @Override
             public void onException(Exception e) {
-                hideLoading();
                 showError(e.getMessage());
+            }
+
+            @Override
+            public void onPostExecute() {
+                hideLoading();
             }
         });
     }
 
+    private boolean hasCachedResult(String tvShow, int seasonNumber) {
+        return mTvShow != null && mTvShow.equals(tvShow) && mSeason == seasonNumber && mEpisodesCache != null;
+    }
+
     @Override
-    public void attachView(@NonNull EpisodesView episodesView) {
-        this.mEpisodesView = episodesView;
+    public void attachView(@NonNull SeasonView seasonView) {
+        this.mSeasonView = seasonView;
 
         if (mLoadingData) {
-            this.mEpisodesView.showLoading();
+            this.mSeasonView.showLoading();
         } else {
             if (mSeasonCache != null) {
                 this.showSeasonPicture(mSeasonCache.getSeasonPictureUrl());
@@ -89,55 +111,81 @@ public class SeasonPresenterImpl implements SeasonPresenter, EpisodesView {
         }
     }
 
-    @Override
+    public void clickedOnEpisode(Episode episode) {
+        showLoading();
+
+        String imdbId = episode.getImdbId();
+
+        mGetEpisodeDetailUseCase.execute(imdbId, new Callback<EpisodeDetail>() {
+            @Override
+            public void onSuccess(EpisodeDetail episodeDetail) {
+                showEpisodeDetail(episodeDetail);
+            }
+
+            @Override
+            public void onException(Exception e) {
+                showError(e.getMessage());
+            }
+
+            @Override
+            public void onPostExecute() {
+                hideLoading();
+            }
+        });
+    }
+
     public void showLoading() {
         mLoadingData = true;
 
-        if (mEpisodesView != null)
-            mEpisodesView.showLoading();
+        if (mSeasonView != null)
+            mSeasonView.showLoading();
     }
 
-    @Override
     public void hideLoading() {
         mLoadingData = false;
 
-        if (mEpisodesView != null)
-            mEpisodesView.hideLoading();
+        if (mSeasonView != null)
+            mSeasonView.hideLoading();
     }
 
-    @Override
     public void showEmptyListTextView() {
-        if (mEpisodesView != null)
-            mEpisodesView.showEmptyListTextView();
+        if (mSeasonView != null)
+            mSeasonView.showEmptyListTextView();
     }
 
-    @Override
     public void showItems(List<Episode> episodes) {
-        if (mEpisodesView != null)
-            mEpisodesView.showItems(episodes);
+        if (mSeasonView != null)
+            mSeasonView.showItems(episodes);
     }
 
-    @Override
     public void showError(String error) {
-        if (mEpisodesView != null)
-            mEpisodesView.showError(error);
+        if (mSeasonView != null)
+            mSeasonView.showError(error);
     }
 
-    @Override
     public void showSeasonPicture(String imageUrl) {
-        if (mEpisodesView != null)
-            mEpisodesView.showSeasonPicture(imageUrl);
+        if (mSeasonView != null)
+            mSeasonView.showSeasonPicture(imageUrl);
     }
 
-    @Override
     public void showSeasonBanner(String bannerUrl) {
-        if (mEpisodesView != null)
-            mEpisodesView.showSeasonPicture(bannerUrl);
+        if (mSeasonView != null)
+            mSeasonView.showSeasonPicture(bannerUrl);
     }
 
-    @Override
     public void showSeasonRating(String rating) {
-        if (mEpisodesView != null)
-            mEpisodesView.showSeasonRating(rating);
+        if (mSeasonView != null)
+            mSeasonView.showSeasonRating(rating);
+    }
+
+    public void showEpisodeDetail(EpisodeDetail episodeDetail) {
+        if (mSeasonView != null) {
+            try {
+                String serializedEpisodeDetail = episodeDetailStringMarshaller.marshal(episodeDetail);
+                mSeasonView.showEpisodeDetail(serializedEpisodeDetail);
+            } catch (Exception e) {
+                showError("Não foi possível exibir o episodio no momento");
+            }
+        }
     }
 }

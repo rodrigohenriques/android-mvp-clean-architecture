@@ -2,9 +2,9 @@ package com.github.rodrigohenriques.mvp.sample.activities;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.github.rodrigohenriques.mvp.sample.R;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
 import com.github.rodrigohenriques.mvp.sample.presenter.SeasonPresenter;
-import com.github.rodrigohenriques.mvp.sample.presenter.view.EpisodesView;
+import com.github.rodrigohenriques.mvp.sample.presenter.view.SeasonView;
 import com.github.rodrigohenriques.mvp.sample.recyclerview.DividerItemDecoration;
 import com.github.rodrigohenriques.mvp.sample.recyclerview.EpisodesRecyclerViewAdapter;
 import com.google.inject.Inject;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.InjectExtra;
 
-public class SeasonActivity extends RoboActionBarActivity implements EpisodesView, EpisodesRecyclerViewAdapter.OnItemClickListener {
+public class SeasonActivity extends RoboActionBarActivity implements SeasonView, EpisodesRecyclerViewAdapter.OnItemClickListener {
 
     @Inject SeasonPresenter mPresenter;
 
@@ -72,7 +72,7 @@ public class SeasonActivity extends RoboActionBarActivity implements EpisodesVie
 
     @Override
     public void onItemClick(Episode episode) {
-        Snackbar.make(mRecyclerView, episode.getImdbId(), Snackbar.LENGTH_LONG).show();
+        mPresenter.clickedOnEpisode(episode);
     }
 
     @Override
@@ -129,5 +129,12 @@ public class SeasonActivity extends RoboActionBarActivity implements EpisodesVie
     @Override
     public void showSeasonRating(String rating) {
         mTextViewRating.setText(rating);
+    }
+
+    @Override
+    public void showEpisodeDetail(String serializedEpisodeDetail) {
+        Intent intent = new Intent(this, EpisodeDetailActivity.class);
+        intent.putExtra(EpisodeDetailActivity.SERIALIZED_EPISODE_DETAIL, serializedEpisodeDetail);
+        startActivity(intent);
     }
 }

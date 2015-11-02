@@ -3,7 +3,7 @@ package com.github.rodrigohenriques.mvp.sample.data.di;
 import com.github.rodrigohenriques.mvp.sample.data.api.OmdbApi;
 import com.google.inject.Provider;
 
-import retrofit.GsonConverterFactory;
+import retrofit.JacksonConverterFactory;
 import retrofit.Retrofit;
 
 public class OmdbApiProvider implements Provider<OmdbApi> {
@@ -11,7 +11,7 @@ public class OmdbApiProvider implements Provider<OmdbApi> {
     public OmdbApi get() {
         return new Retrofit.Builder()
                 .baseUrl("http://www.omdbapi.com")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create())
                 .build()
                 .create(OmdbApi.class);
     }

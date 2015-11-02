@@ -22,6 +22,10 @@ android {
         abortOnError false
     }
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 project.tasks.withType(JavaCompile) { task ->

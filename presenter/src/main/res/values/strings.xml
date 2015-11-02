@@ -95,4 +95,5 @@
     <string name="episodes">Episódios</string>
     <string name="default_rating">-</string>
     <string name="action_close">FECHAR</string>
+    <string name="title_activity_episode_detail">EpisodeDetailActivity</string>
 </resources>

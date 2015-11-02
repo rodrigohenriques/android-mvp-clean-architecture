@@ -26,4 +26,9 @@ public class EpisodeEntityListMarshaller implements Marshaller<List<EpisodeEntit
 
         return episodes;
     }
+
+    @Override
+    public List<EpisodeEntity> unmarshal(List<Episode> input) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
 }

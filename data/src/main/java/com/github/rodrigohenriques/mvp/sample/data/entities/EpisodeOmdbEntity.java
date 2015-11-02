@@ -1,31 +1,31 @@
 package com.github.rodrigohenriques.mvp.sample.data.entities;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EpisodeOmdbEntity {
-    @SerializedName("Title")    private String title;
-    @SerializedName("Year")     private String year;
-    @SerializedName("Rated")    private String rated;
-    @SerializedName("Released") private String released;
-    @SerializedName("Season")   private String season;
-    @SerializedName("Episode")  private String episode;
-    @SerializedName("Runtime")  private String runtime;
-    @SerializedName("Genre")    private String genre;
-    @SerializedName("Director") private String director;
-    @SerializedName("Writer")   private String writer;
-    @SerializedName("Actors")   private String actors;
-    @SerializedName("Plot")     private String plot;
-    @SerializedName("Language") private String language;
-    @SerializedName("Country")  private String country;
-    @SerializedName("Awards")   private String awards;
-    @SerializedName("Poster")   private String poster;
-    @SerializedName("Metascore")    private String metascore;
-    @SerializedName("imdbRating")   private String imdbRating;
-    @SerializedName("imdbVotes")    private String imdbVotes;
-    @SerializedName("imdbID")   private String imdbID;
-    @SerializedName("seriesID") private String seriesID;
-    @SerializedName("Type")     private String type;
-    @SerializedName("Response") private String response;
+    @JsonProperty("Title")    private String title;
+    @JsonProperty("Year")     private String year;
+    @JsonProperty("Rated")    private String rated;
+    @JsonProperty("Released") private String released;
+    @JsonProperty("Season")   private String season;
+    @JsonProperty("Episode")  private String episode;
+    @JsonProperty("Runtime")  private String runtime;
+    @JsonProperty("Genre")    private String genre;
+    @JsonProperty("Director") private String director;
+    @JsonProperty("Writer")   private String writer;
+    @JsonProperty("Actors")   private String actors;
+    @JsonProperty("Plot")     private String plot;
+    @JsonProperty("Language") private String language;
+    @JsonProperty("Country")  private String country;
+    @JsonProperty("Awards")   private String awards;
+    @JsonProperty("Poster")   private String poster;
+    @JsonProperty("Metascore")    private String metascore;
+    @JsonProperty("imdbRating")   private String imdbRating;
+    @JsonProperty("imdbVotes")    private String imdbVotes;
+    @JsonProperty("imdbID")   private String imdbID;
+    @JsonProperty("seriesID") private String seriesID;
+    @JsonProperty("Type")     private String type;
+    @JsonProperty("Response") private String response;
 
     public String getTitle() {
         return title;

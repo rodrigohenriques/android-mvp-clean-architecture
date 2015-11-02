@@ -11,6 +11,14 @@ public class EpisodeOmdbEntityMarshaller implements Marshaller<EpisodeOmdbEntity
 
         EpisodeDetail episodeDetail = new EpisodeDetail(season, number, title);
 
+        episodeDetail.setRuntime(episodeOmdbEntity.getRuntime());
+        episodeDetail.setPlot(episodeOmdbEntity.getPlot());
+
         return episodeDetail;
+    }
+
+    @Override
+    public EpisodeOmdbEntity unmarshal(EpisodeDetail input) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }
