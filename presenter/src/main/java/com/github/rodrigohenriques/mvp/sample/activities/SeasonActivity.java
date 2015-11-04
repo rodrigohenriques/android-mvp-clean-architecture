@@ -71,6 +71,12 @@ public class SeasonActivity extends RoboActionBarActivity implements SeasonView,
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.detachView();
+    }
+
+    @Override
     public void onItemClick(Episode episode) {
         mPresenter.clickedOnEpisode(episode);
     }

@@ -5,6 +5,8 @@ public class EpisodeDetail extends Episode {
     private String runtime;
     private String plot;
 
+    public EpisodeDetail() {}
+
     public EpisodeDetail(int season, int number, String title) {
         super(season, number, title);
     }

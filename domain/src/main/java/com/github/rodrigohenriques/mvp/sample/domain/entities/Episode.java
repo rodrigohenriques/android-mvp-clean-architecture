@@ -8,6 +8,8 @@ public class Episode {
     String tvShow;
     String imdbId;
 
+    public Episode() {}
+
     public Episode(int season, int number, String title) {
         this.season = season;
         this.number = number;
