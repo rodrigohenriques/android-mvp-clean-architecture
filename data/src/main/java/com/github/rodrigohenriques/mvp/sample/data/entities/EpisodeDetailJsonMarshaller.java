@@ -8,9 +8,12 @@ import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 public class EpisodeDetailJsonMarshaller implements Marshaller<EpisodeDetail, String> {
     ObjectMapper mObjectMapper;
 
+    @Inject
     public EpisodeDetailJsonMarshaller() {
         mObjectMapper = new ObjectMapper();
     }

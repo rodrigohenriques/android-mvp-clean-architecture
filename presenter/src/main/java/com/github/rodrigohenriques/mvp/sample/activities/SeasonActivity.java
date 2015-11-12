@@ -5,30 +5,32 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.rodrigohenriques.mvp.sample.AndroidApplication;
 import com.github.rodrigohenriques.mvp.sample.R;
+import com.github.rodrigohenriques.mvp.sample.di.ApplicationComponent;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
 import com.github.rodrigohenriques.mvp.sample.presenter.SeasonPresenter;
 import com.github.rodrigohenriques.mvp.sample.presenter.view.SeasonView;
 import com.github.rodrigohenriques.mvp.sample.recyclerview.DividerItemDecoration;
 import com.github.rodrigohenriques.mvp.sample.recyclerview.EpisodesRecyclerViewAdapter;
-import com.google.inject.Inject;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
-import roboguice.activity.RoboActionBarActivity;
-import roboguice.inject.InjectExtra;
 
-public class SeasonActivity extends RoboActionBarActivity implements SeasonView, EpisodesRecyclerViewAdapter.OnItemClickListener {
+public class SeasonActivity extends AppCompatActivity implements SeasonView, EpisodesRecyclerViewAdapter.OnItemClickListener {
 
     @Inject SeasonPresenter mPresenter;
 
@@ -42,15 +44,20 @@ public class SeasonActivity extends RoboActionBarActivity implements SeasonView,
     @BindColor(android.R.color.transparent) int mColorTransparent;
     @BindColor(R.color.title_color) int mColorTitle;
 
-    @InjectExtra(value = "tvShow", optional = true) String mTvShow = "game-of-thrones";
-    @InjectExtra(value = "season", optional = true) int mSeason = 1;
+    final String mTvShow = "game-of-thrones";
+    final int mSeason = 1;
 
     ProgressDialog mProgressDialog;
+
+    ApplicationComponent applicationComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_season);
+
+        applicationComponent =  ((AndroidApplication) getApplication()).getApplicationComponent();
+        applicationComponent.inject(this);
 
         ButterKnife.bind(this);
 

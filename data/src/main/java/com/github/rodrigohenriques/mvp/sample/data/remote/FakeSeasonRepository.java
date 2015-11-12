@@ -3,8 +3,10 @@ package com.github.rodrigohenriques.mvp.sample.data.remote;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Season;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.SeasonRepository;
 
-public class FakeSeasonRepository implements SeasonRepository {
+import javax.inject.Inject;
 
+public class FakeSeasonRepository implements SeasonRepository {
+    @Inject
     public FakeSeasonRepository() {
     }
 

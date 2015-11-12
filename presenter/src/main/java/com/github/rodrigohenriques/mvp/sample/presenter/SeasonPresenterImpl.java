@@ -12,12 +12,11 @@ import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodeDetail
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodesUseCase;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetSeasonDetailUseCase;
 import com.github.rodrigohenriques.mvp.sample.presenter.view.SeasonView;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.util.List;
 
-@Singleton
+import javax.inject.Inject;
+
 public class SeasonPresenterImpl implements SeasonPresenter {
 
     @Inject GetEpisodesUseCase mGetEpisodesUseCase;
@@ -33,6 +32,7 @@ public class SeasonPresenterImpl implements SeasonPresenter {
     int mSeason;
     boolean mLoadingData;
 
+    @Inject
     public SeasonPresenterImpl() {}
 
     @Override

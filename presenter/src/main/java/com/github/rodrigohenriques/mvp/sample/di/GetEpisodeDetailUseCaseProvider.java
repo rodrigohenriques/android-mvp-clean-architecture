@@ -4,12 +4,14 @@ import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodeDetail
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetEpisodeDetailUseCaseImpl;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.UiThreadExecutor;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 public class GetEpisodeDetailUseCaseProvider implements Provider<GetEpisodeDetailUseCase> {
 
-    @Inject EpisodeRepository episodeRepository;
+    @Inject
+    EpisodeRepository episodeRepository;
     @Inject UiThreadExecutor uiThreadExecutor;
 
     @Override

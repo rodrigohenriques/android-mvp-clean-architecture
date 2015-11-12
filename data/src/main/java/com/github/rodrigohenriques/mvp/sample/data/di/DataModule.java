@@ -1,7 +1,5 @@
 package com.github.rodrigohenriques.mvp.sample.data.di;
 
-import android.app.Application;
-
 import com.github.rodrigohenriques.mvp.sample.data.api.OmdbApi;
 import com.github.rodrigohenriques.mvp.sample.data.api.TraktvApi;
 import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeDetailJsonMarshaller;
@@ -11,23 +9,50 @@ import com.github.rodrigohenriques.mvp.sample.data.remote.RemoteEpisodeRepositor
 import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.SeasonRepository;
-import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 
-public class DataModule extends AbstractModule {
+import dagger.Module;
+import dagger.Provides;
+import retrofit.JacksonConverterFactory;
+import retrofit.Retrofit;
 
-    private final Application application;
+@Module
+public class DataModule {
+    public static final String TRAKTV_API_URL = "https://api-v2launch.trakt.tv/";
 
-    public DataModule(Application application) {
-        this.application = application;
+    @Provides
+    public TraktvApi provideTraktvApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(TRAKTV_API_URL)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
+
+        retrofit.client().interceptors().add(new TraktvApiInterceptor());
+
+        return retrofit.create(TraktvApi.class);
     }
 
-    @Override
-    protected void configure() {
-        bind(TraktvApi.class).toProvider(new TraktvApiProvider());
-        bind(OmdbApi.class).toProvider(new OmdbApiProvider());
-        bind(EpisodeRepository.class).to(RemoteEpisodeRepository.class);
-        bind(SeasonRepository.class).to(FakeSeasonRepository.class);
-        bind(new TypeLiteral<Marshaller<EpisodeDetail, String>>(){}).to(EpisodeDetailJsonMarshaller.class);
+    @Provides
+    public OmdbApi provideOmdbApi() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.omdbapi.com")
+                .addConverterFactory(JacksonConverterFactory.create())
+                .build();
+
+        return retrofit.create(OmdbApi.class);
+    }
+
+    @Provides
+    public EpisodeRepository provideEpisodeRepository(RemoteEpisodeRepository remoteEpisodeRepository) {
+        return remoteEpisodeRepository;
+    }
+
+    @Provides
+    public SeasonRepository provideSeasonRepository(FakeSeasonRepository fakeSeasonRepository) {
+        return fakeSeasonRepository;
+    }
+
+    @Provides
+    public Marshaller<EpisodeDetail, String> provideEpisodeDetailMarshaller(EpisodeDetailJsonMarshaller episodeDetailJsonMarshaller) {
+        return episodeDetailJsonMarshaller;
     }
 }

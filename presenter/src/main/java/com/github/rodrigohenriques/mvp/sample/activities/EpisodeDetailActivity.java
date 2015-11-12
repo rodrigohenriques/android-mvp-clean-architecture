@@ -1,19 +1,19 @@
 package com.github.rodrigohenriques.mvp.sample.activities;
 
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.github.rodrigohenriques.mvp.sample.R;
 import com.github.rodrigohenriques.mvp.sample.data.entities.Marshaller;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
-import com.google.inject.Inject;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
-import roboguice.activity.RoboActionBarActivity;
-import roboguice.inject.InjectExtra;
 
-public class EpisodeDetailActivity extends RoboActionBarActivity {
+public class EpisodeDetailActivity extends AppCompatActivity {
 
     public static final String SERIALIZED_EPISODE_DETAIL = "extra-episode-detail";
 
@@ -22,7 +22,7 @@ public class EpisodeDetailActivity extends RoboActionBarActivity {
     @Bind(R.id.textview_runtime) TextView textViewRuntime;
     @Bind(R.id.textview_plot) TextView textViewPlot;
 
-    @InjectExtra(SERIALIZED_EPISODE_DETAIL) String serializedEpisodeDetail;
+    String serializedEpisodeDetail;
 
     EpisodeDetail episodeDetail;
 
@@ -33,6 +33,8 @@ public class EpisodeDetailActivity extends RoboActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        serializedEpisodeDetail = getIntent().getStringExtra(SERIALIZED_EPISODE_DETAIL);
+
         episodeDetail = episodeDetailStringMarshaller.unmarshal(serializedEpisodeDetail);
 
         if (episodeDetail != null) {
@@ -40,5 +42,4 @@ public class EpisodeDetailActivity extends RoboActionBarActivity {
             textViewPlot.setText(episodeDetail.getPlot());
         }
     }
-
 }
