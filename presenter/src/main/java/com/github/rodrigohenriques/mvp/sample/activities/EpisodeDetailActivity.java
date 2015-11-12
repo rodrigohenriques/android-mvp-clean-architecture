@@ -1,7 +1,6 @@
 package com.github.rodrigohenriques.mvp.sample.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
@@ -13,7 +12,7 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 
-public class EpisodeDetailActivity extends AppCompatActivity {
+public class EpisodeDetailActivity extends BaseActivity {
 
     public static final String SERIALIZED_EPISODE_DETAIL = "extra-episode-detail";
 
@@ -32,6 +31,8 @@ public class EpisodeDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_episode_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mApplicationComponent.inject(this);
 
         serializedEpisodeDetail = getIntent().getStringExtra(SERIALIZED_EPISODE_DETAIL);
 

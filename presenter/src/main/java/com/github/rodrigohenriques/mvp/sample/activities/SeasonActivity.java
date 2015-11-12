@@ -5,16 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.rodrigohenriques.mvp.sample.AndroidApplication;
 import com.github.rodrigohenriques.mvp.sample.R;
-import com.github.rodrigohenriques.mvp.sample.di.ApplicationComponent;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
 import com.github.rodrigohenriques.mvp.sample.presenter.SeasonPresenter;
 import com.github.rodrigohenriques.mvp.sample.presenter.view.SeasonView;
@@ -30,7 +27,7 @@ import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.ButterKnife;
 
-public class SeasonActivity extends AppCompatActivity implements SeasonView, EpisodesRecyclerViewAdapter.OnItemClickListener {
+public class SeasonActivity extends BaseActivity implements SeasonView, EpisodesRecyclerViewAdapter.OnItemClickListener {
 
     @Inject SeasonPresenter mPresenter;
 
@@ -49,15 +46,12 @@ public class SeasonActivity extends AppCompatActivity implements SeasonView, Epi
 
     ProgressDialog mProgressDialog;
 
-    ApplicationComponent applicationComponent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_season);
 
-        applicationComponent =  ((AndroidApplication) getApplication()).getApplicationComponent();
-        applicationComponent.inject(this);
+        mApplicationComponent.inject(this);
 
         ButterKnife.bind(this);
 
