@@ -10,4 +10,5 @@
     <dimen name="btn_flat_padding">8dp</dimen>
     <dimen name="btn_flat_margin">8dp</dimen>
     <dimen name="default_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

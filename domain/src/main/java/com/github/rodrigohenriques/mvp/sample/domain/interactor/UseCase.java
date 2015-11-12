@@ -1,4 +1,4 @@
 package com.github.rodrigohenriques.mvp.sample.domain.interactor;
 
-public interface UseCase {
+public interface UseCase extends Runnable {
 }

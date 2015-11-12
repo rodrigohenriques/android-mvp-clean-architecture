@@ -1,33 +1,37 @@
 package com.github.rodrigohenriques.mvp.sample.data.remote;
 
-import com.github.rodrigohenriques.mvp.sample.data.api.TraktApi;
+import com.github.rodrigohenriques.mvp.sample.data.api.OmdbApi;
+import com.github.rodrigohenriques.mvp.sample.data.api.TraktvApi;
 import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeEntity;
-import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeEntityMarshaller;
+import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeEntityListMarshaller;
+import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeOmdbEntity;
+import com.github.rodrigohenriques.mvp.sample.data.entities.EpisodeOmdbEntityMarshaller;
 import com.github.rodrigohenriques.mvp.sample.data.exception.RemoteEpisodeRepositoryException;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
+import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit.Call;
 import retrofit.Response;
 
-@Singleton
 public class RemoteEpisodeRepository implements EpisodeRepository {
 
-    @Inject
-    TraktApi traktApi;
+    @Inject TraktvApi traktvApi;
+    @Inject OmdbApi omdbApi;
 
+    @Inject
     public RemoteEpisodeRepository() {
+
     }
 
     @Override
-    public List<Episode> listEpisodesFromTelevisionShowBySeason(String serie, int season) throws Exception {
-        Call<List<EpisodeEntity>> call = traktApi.episodes(serie, season);
+    public List<Episode> listEpisodesFromTelevisionShowBySeason(String tvShow, int season) throws Exception {
+        Call<List<EpisodeEntity>> call = traktvApi.episodes(tvShow, season);
 
         Response<List<EpisodeEntity>> response;
         try {
@@ -35,7 +39,8 @@ public class RemoteEpisodeRepository implements EpisodeRepository {
 
             if (response.isSuccess()) {
                 List<EpisodeEntity> episodeEntities = response.body();
-                return transform(episodeEntities);
+
+                return new EpisodeEntityListMarshaller(tvShow).marshal(episodeEntities);
             } else {
                 throw new RemoteEpisodeRepositoryException("could not retrieve episodes from trakt api: " + response.message());
             }
@@ -44,15 +49,24 @@ public class RemoteEpisodeRepository implements EpisodeRepository {
         }
     }
 
-    private List<Episode> transform(List<EpisodeEntity> episodeEntities) {
-        List<Episode> episodes = new ArrayList<>(episodeEntities.size());
+    @Override
+    public EpisodeDetail retrieveEpisodeDetail(String imdbId) throws Exception {
+        Call<EpisodeOmdbEntity> call = omdbApi.findEpisodeInfoByImdbId(imdbId);
 
-        EpisodeEntityMarshaller episodeEntityMarshaller = new EpisodeEntityMarshaller();
+        Response<EpisodeOmdbEntity> response;
 
-        for (EpisodeEntity entity : episodeEntities) {
-            episodes.add(episodeEntityMarshaller.marshal(entity));
+        try {
+            response = call.execute();
+
+            if (response.isSuccess()) {
+
+                EpisodeOmdbEntity episodeOmdbEntity = response.body();
+                return new EpisodeOmdbEntityMarshaller().marshal(episodeOmdbEntity);
+            } else {
+                throw new RemoteEpisodeRepositoryException("could not retrieve episode detail from omdb api: " + response.message());
+            }
+        } catch (IOException e) {
+            throw new RemoteEpisodeRepositoryException("could not retrieve episodes from trakt api: ", e);
         }
-
-        return episodes;
     }
 }

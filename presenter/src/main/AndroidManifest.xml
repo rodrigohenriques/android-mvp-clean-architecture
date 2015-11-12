@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.rodrigohenriques.mvp.sample">
+    package="com.github.rodrigohenriques.mvp.sample" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-
+        android:theme="@style/AppTheme"
+        android:name=".AndroidApplication">
         <meta-data
             android:name="roboguice.modules"
-            android:value="com.github.rodrigohenriques.mvp.sample.di.PresenterModule,com.github.rodrigohenriques.mvp.sample.di.DataModule" />
-
+            android:value="com.github.rodrigohenriques.mvp.sample.di.PresenterModule,com.github.rodrigohenriques.mvp.sample.data.di.DataModule" />
         <meta-data
             android:name="roboguice.annotations.packages"
             android:value="com.github.rodrigohenriques.mvp.sample,com.github.rodrigohenriques.mvp.sample.data" />
@@ -21,12 +20,21 @@
         <activity
             android:name=".activities.SeasonActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.EpisodeDetailActivity"
+            android:label="@string/title_activity_episode_detail"
+            android:parentActivityName=".activities.SeasonActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.github.rodrigohenriques.mvp.sample.activities.SeasonActivity" />
         </activity>
     </application>
 
