@@ -10,22 +10,23 @@ import com.github.rodrigohenriques.mvp.sample.data.exception.RemoteEpisodeReposi
 import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
 import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.EpisodeRepository;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit.Call;
 import retrofit.Response;
 
-@Singleton
 public class RemoteEpisodeRepository implements EpisodeRepository {
 
     @Inject TraktvApi traktvApi;
     @Inject OmdbApi omdbApi;
 
+    @Inject
     public RemoteEpisodeRepository() {
+
     }
 
     @Override

@@ -4,10 +4,11 @@ import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetSeasonDetailU
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.GetSeasonDetailUseCaseImpl;
 import com.github.rodrigohenriques.mvp.sample.domain.interactor.UiThreadExecutor;
 import com.github.rodrigohenriques.mvp.sample.domain.repository.SeasonRepository;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 
-public class GetSeasonDetailUseCaseProvider implements Provider<GetSeasonDetailUseCase>{
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+public class GetSeasonDetailUseCaseProvider implements Provider<GetSeasonDetailUseCase> {
     @Inject SeasonRepository mSeasonRepository;
     @Inject UiThreadExecutor mUiThreadExecutor;
 
