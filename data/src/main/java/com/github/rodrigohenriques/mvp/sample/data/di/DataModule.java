@@ -17,12 +17,9 @@ import retrofit.Retrofit;
 
 @Module
 public class DataModule {
-    public static final String TRAKTV_API_URL = "https://api-v2launch.trakt.tv/";
-
-    @Provides
-    public TraktvApi provideTraktvApi() {
+    @Provides public TraktvApi provideTraktvApi() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TRAKTV_API_URL)
+                .baseUrl("https://api-v2launch.trakt.tv/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
@@ -31,8 +28,7 @@ public class DataModule {
         return retrofit.create(TraktvApi.class);
     }
 
-    @Provides
-    public OmdbApi provideOmdbApi() {
+    @Provides public OmdbApi provideOmdbApi() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://www.omdbapi.com")
                 .addConverterFactory(JacksonConverterFactory.create())
@@ -41,18 +37,15 @@ public class DataModule {
         return retrofit.create(OmdbApi.class);
     }
 
-    @Provides
-    public EpisodeRepository provideEpisodeRepository(RemoteEpisodeRepository remoteEpisodeRepository) {
+    @Provides public EpisodeRepository provideEpisodeRepository(RemoteEpisodeRepository remoteEpisodeRepository) {
         return remoteEpisodeRepository;
     }
 
-    @Provides
-    public SeasonRepository provideSeasonRepository(FakeSeasonRepository fakeSeasonRepository) {
+    @Provides public SeasonRepository provideSeasonRepository(FakeSeasonRepository fakeSeasonRepository) {
         return fakeSeasonRepository;
     }
 
-    @Provides
-    public Marshaller<EpisodeDetail, String> provideEpisodeDetailMarshaller(EpisodeDetailJsonMarshaller episodeDetailJsonMarshaller) {
+    @Provides public Marshaller<EpisodeDetail, String> provideEpisodeDetailMarshaller(EpisodeDetailJsonMarshaller episodeDetailJsonMarshaller) {
         return episodeDetailJsonMarshaller;
     }
 }
