@@ -9,12 +9,14 @@ import com.github.rodrigohenriques.mvp.sample.data.di.DataModule;
 
 import dagger.Component;
 
-@Component(modules = { PresenterModule.class, DataModule.class })
+@Component(modules = {
+        PresenterModule.class,
+        DataModule.class
+})
 public interface ApplicationComponent {
     void inject(BaseActivity baseActivity);
     void inject(SeasonActivity seasonActivity);
     void inject(EpisodeDetailActivity seasonActivity);
 
     Context provideContext();
-
 }
