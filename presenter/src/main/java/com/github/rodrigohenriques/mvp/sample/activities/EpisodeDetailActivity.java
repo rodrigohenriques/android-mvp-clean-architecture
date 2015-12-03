@@ -11,36 +11,41 @@ import com.github.rodrigohenriques.mvp.sample.domain.entities.EpisodeDetail;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class EpisodeDetailActivity extends BaseActivity {
-
     public static final String SERIALIZED_EPISODE_DETAIL = "extra-episode-detail";
 
-    @Inject Marshaller<EpisodeDetail, String> episodeDetailStringMarshaller;
+    @Inject Marshaller<EpisodeDetail, String> mEpisodeDetailStringMarshaller;
 
-    @Bind(R.id.textview_runtime) TextView textViewRuntime;
-    @Bind(R.id.textview_plot) TextView textViewPlot;
+    @Bind(R.id.toolbar) Toolbar mToolbar;
+    @Bind(R.id.textview_runtime) TextView mTextViewRuntime;
+    @Bind(R.id.textview_plot) TextView mTextViewPlot;
 
-    String serializedEpisodeDetail;
+    String mSerializedEpisodeDetail;
 
-    EpisodeDetail episodeDetail;
+    EpisodeDetail mEpisodeDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_episode_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        ButterKnife.bind(this);
         mApplicationComponent.inject(this);
 
-        serializedEpisodeDetail = getIntent().getStringExtra(SERIALIZED_EPISODE_DETAIL);
+        mSerializedEpisodeDetail = getIntent().getStringExtra(SERIALIZED_EPISODE_DETAIL);
 
-        episodeDetail = episodeDetailStringMarshaller.unmarshal(serializedEpisodeDetail);
+        setSupportActionBar(mToolbar);
+        //noinspection ConstantConditions
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        if (episodeDetail != null) {
-            textViewRuntime.setText(episodeDetail.getRuntime());
-            textViewPlot.setText(episodeDetail.getPlot());
+        mEpisodeDetail = mEpisodeDetailStringMarshaller.unmarshal(mSerializedEpisodeDetail);
+
+        if (mEpisodeDetail != null) {
+            setTitle(mEpisodeDetail.getTitle());
+            mTextViewRuntime.setText(mEpisodeDetail.getRuntime());
+            mTextViewPlot.setText(mEpisodeDetail.getPlot());
         }
     }
 }

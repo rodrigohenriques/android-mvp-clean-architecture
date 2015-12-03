@@ -17,7 +17,7 @@ public class EpisodeDetailJsonMarshaller implements Marshaller<EpisodeDetail, St
     @Inject
     public EpisodeDetailJsonMarshaller() {
         mObjectMapper = new ObjectMapper();
-        mObjectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        mObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @Override @Nullable

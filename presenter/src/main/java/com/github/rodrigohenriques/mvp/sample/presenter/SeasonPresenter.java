@@ -7,4 +7,5 @@ public interface SeasonPresenter extends Presenter {
     void loadData(String tvShow, int season);
     void attachView(SeasonView seasonView);
     void clickedOnEpisode(Episode episode);
+    void detachView();
 }

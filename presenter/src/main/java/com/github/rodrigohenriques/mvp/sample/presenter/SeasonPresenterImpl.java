@@ -44,48 +44,48 @@ public class SeasonPresenterImpl implements SeasonPresenter {
         } else {
             mTvShow = tvShow;
             mSeason = seasonNumber;
+
+            mGetSeasonDetailUseCase.execute(tvShow, seasonNumber, new Callback<Season>() {
+                @Override
+                public void onSuccess(Season season) {
+                    mSeasonCache = season;
+
+                    showSeasonPicture(season.getSeasonPictureUrl());
+                    showSeasonBanner(season.getSeasonBannerUrl());
+                    showSeasonRating(season.getSeasonRating());
+
+                    showLoading();
+
+                    mGetEpisodesUseCase.execute(tvShow, seasonNumber, new Callback<List<Episode>>() {
+                        @Override
+                        public void onSuccess(List<Episode> episodes) {
+                            mEpisodesCache = episodes;
+                            showItems(episodes);
+                        }
+
+                        @Override
+                        public void onException(Exception e) {
+                            showError(e.getMessage());
+                        }
+
+                        @Override
+                        public void onPostExecute() {
+                            hideLoading();
+                        }
+                    });
+                }
+
+                @Override
+                public void onException(Exception e) {
+                    showError(e.getMessage());
+                }
+
+                @Override
+                public void onPostExecute() {
+                    hideLoading();
+                }
+            });
         }
-
-        mGetSeasonDetailUseCase.execute(tvShow, seasonNumber, new Callback<Season>() {
-            @Override
-            public void onSuccess(Season season) {
-                mSeasonCache = season;
-
-                showSeasonPicture(season.getSeasonPictureUrl());
-                showSeasonBanner(season.getSeasonBannerUrl());
-                showSeasonRating(season.getSeasonRating());
-
-                showLoading();
-
-                mGetEpisodesUseCase.execute(tvShow, seasonNumber, new Callback<List<Episode>>() {
-                    @Override
-                    public void onSuccess(List<Episode> episodes) {
-                        mEpisodesCache = episodes;
-                        showItems(episodes);
-                    }
-
-                    @Override
-                    public void onException(Exception e) {
-                        showError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onPostExecute() {
-                        hideLoading();
-                    }
-                });
-            }
-
-            @Override
-            public void onException(Exception e) {
-                showError(e.getMessage());
-            }
-
-            @Override
-            public void onPostExecute() {
-                hideLoading();
-            }
-        });
     }
 
     private boolean hasCachedResult(String tvShow, int seasonNumber) {
@@ -132,6 +132,11 @@ public class SeasonPresenterImpl implements SeasonPresenter {
                 hideLoading();
             }
         });
+    }
+
+    @Override
+    public void detachView() {
+        mSeasonView = null;
     }
 
     public void showLoading() {

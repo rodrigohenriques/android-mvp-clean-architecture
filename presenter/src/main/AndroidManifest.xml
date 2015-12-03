@@ -30,8 +30,7 @@
         <activity
             android:name=".activities.EpisodeDetailActivity"
             android:label="@string/title_activity_episode_detail"
-            android:parentActivityName=".activities.SeasonActivity"
-            android:theme="@style/AppTheme" >
+            android:parentActivityName="com.github.rodrigohenriques.mvp.sample.activities.SeasonActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.github.rodrigohenriques.mvp.sample.activities.SeasonActivity" />
