@@ -72,6 +72,12 @@ public class SeasonActivity extends BaseActivity implements SeasonView, Episodes
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mPresenter.detachView();
+    }
+
+    @Override
     public void onItemClick(Episode episode) {
         mPresenter.clickedOnEpisode(episode);
     }
