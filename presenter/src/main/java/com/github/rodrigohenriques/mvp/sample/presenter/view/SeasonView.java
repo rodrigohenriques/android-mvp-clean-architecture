@@ -4,7 +4,7 @@ import com.github.rodrigohenriques.mvp.sample.domain.entities.Episode;
 
 import java.util.List;
 
-public interface EpisodesView extends View {
+public interface SeasonView extends View {
     void showLoading();
     void hideLoading();
     void showEmptyListTextView();
@@ -13,4 +13,5 @@ public interface EpisodesView extends View {
     void showSeasonPicture(String imageUrl);
     void showSeasonBanner(String bannerUrl);
     void showSeasonRating(String rating);
+    void showEpisodeDetail(String serializedEpisodeDetail);
 }
