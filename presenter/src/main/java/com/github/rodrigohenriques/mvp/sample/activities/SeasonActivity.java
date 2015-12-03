@@ -121,6 +121,8 @@ public class SeasonActivity extends BaseActivity implements SeasonView, Episodes
     public void showSeasonPicture(String seasonPictureUrl) {
         Picasso.with(SeasonActivity.this)
                 .load(seasonPictureUrl)
+                .fit()
+                .centerInside()
                 .placeholder(R.drawable.season_picture_placeholder)
                 .into(mImageViewSeasonPicture);
     }
@@ -129,6 +131,8 @@ public class SeasonActivity extends BaseActivity implements SeasonView, Episodes
     public void showSeasonBanner(String seasonBannerUrl) {
         Picasso.with(SeasonActivity.this)
                 .load(seasonBannerUrl)
+                .fit()
+                .centerInside()
                 .placeholder(R.drawable.season_header_placeholder)
                 .into(mImageViewHeader);
     }

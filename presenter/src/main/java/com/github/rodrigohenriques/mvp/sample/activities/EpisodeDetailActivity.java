@@ -14,7 +14,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class EpisodeDetailActivity extends BaseActivity {
-
     public static final String SERIALIZED_EPISODE_DETAIL = "extra-episode-detail";
 
     @Inject Marshaller<EpisodeDetail, String> mEpisodeDetailStringMarshaller;
@@ -23,9 +22,9 @@ public class EpisodeDetailActivity extends BaseActivity {
     @Bind(R.id.textview_runtime) TextView mTextViewRuntime;
     @Bind(R.id.textview_plot) TextView mTextViewPlot;
 
-    String serializedEpisodeDetail;
+    String mSerializedEpisodeDetail;
 
-    EpisodeDetail episodeDetail;
+    EpisodeDetail mEpisodeDetail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +34,18 @@ public class EpisodeDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
         mApplicationComponent.inject(this);
 
-        serializedEpisodeDetail = getIntent().getStringExtra(SERIALIZED_EPISODE_DETAIL);
+        mSerializedEpisodeDetail = getIntent().getStringExtra(SERIALIZED_EPISODE_DETAIL);
 
         setSupportActionBar(mToolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        episodeDetail = mEpisodeDetailStringMarshaller.unmarshal(mSerializedEpisodeDetail);
+        mEpisodeDetail = mEpisodeDetailStringMarshaller.unmarshal(mSerializedEpisodeDetail);
 
-        if (episodeDetail != null) {
-            setTitle(episodeDetail.getTitle());
-            mTextViewRuntime.setText(episodeDetail.getRuntime());
-            mTextViewPlot.setText(episodeDetail.getPlot());
+        if (mEpisodeDetail != null) {
+            setTitle(mEpisodeDetail.getTitle());
+            mTextViewRuntime.setText(mEpisodeDetail.getRuntime());
+            mTextViewPlot.setText(mEpisodeDetail.getPlot());
         }
     }
 }
